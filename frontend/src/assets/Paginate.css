@@ -1,0 +1,37 @@
+* {
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+
+.paginator {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  font-size: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.paginator li a {
+  border: 1px solid black;
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.paginator li a:hover {
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #eeeeee;
+  cursor: pointer;
+}
+
+.paginator li.disabled {
+  display: none;
+}
+
+.paginator li.selected a {
+  background-color: black;
+  color: #eeeeee;
+}

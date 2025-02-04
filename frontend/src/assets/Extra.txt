@@ -1,0 +1,38 @@
+import { Button, HStack } from "@chakra-ui/react";
+import { FC } from "react";
+
+interface Pagination {
+  productsPerPage: number;
+  totalProducts: number;
+  paginate: (pageNumber: number) => void;
+}
+
+const Pagination: FC<Pagination> = ({
+  productsPerPage,
+  totalProducts,
+  paginate,
+}) => {
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <HStack spacing={1} mt={3}>
+      {pageNumbers.map((number) => (
+        <Button
+          border={"1px solid black"}
+          width={"2rem"}
+          height={"2.5rem"}
+          borderRadius={"50%"}
+          key={number}
+          onClick={() => paginate(number)}
+        >
+          {number}
+        </Button>
+      ))}
+    </HStack>
+  );
+};
+
+export default Pagination;
