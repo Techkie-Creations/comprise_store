@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import {
   generateRefreshToken,
   generateToken,
-  refreshAccessToken,
+  verifyRefreshAccess,
   updateRefreshToken,
 } from "./middlewares/tokens.js";
 import { upload } from "./middlewares/multer.js";
@@ -191,7 +191,7 @@ router.post("/login", async (req, res) => {
         path: "/",
       })
       .cookie("accessToken", generateToken(userDetails._id), {
-        expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 3 * 60 * 60 * 1000),
         domain: "localhost",
         path: "/",
       });
@@ -328,7 +328,7 @@ router.post("/resetPassword", async (req, res) => {
 //
 router.post("/token", async (req, res) => {
   const { userId } = req.body;
-  let refreshedToken = await refreshAccessToken(userId);
+  let refreshedToken = await verifyRefreshAccess(userId);
   if (!refreshedToken)
     return res
       .status(403)

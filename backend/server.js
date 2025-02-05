@@ -38,16 +38,23 @@ app.use(cookieParser());
 app.use("/avatar", express.static("avatar"));
 
 app.post("/api/test", validateToken, async (req, res) => {
-  const userId = req.info;
+  const { userId, token } = req.info;
   const validUser = await User.findById(userId, "firstName lastName avatar");
   const name = fullName(validUser.firstName, validUser.lastName);
-  return res.status(200).json({
-    userId: validUser._id,
-    success: true,
-    message: "Valid refresh token!!",
-    avatarUrl: validUser.avatar,
-    name,
-  });
+  return res
+    .cookie("accessToken", token, {
+      expires: new Date(Date.now() + 60 * 1000),
+      domain: "localhost",
+      path: "/",
+    })
+    .status(200)
+    .json({
+      userId: validUser._id,
+      success: true,
+      message: "Valid refresh token!!",
+      avatarUrl: validUser.avatar,
+      name,
+    });
 });
 
 app.post("/api/products", (req, res) => {
